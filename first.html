@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SolTube Portfolio</title>
+
+<style>
+/* ===============================
+   기본 초기화
+   =============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   전체 화면 설정
+   =============================== */
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ffffff; /* 변경가능 : 배경색 */
+  font-family: Arial, Helvetica, sans-serif; /* 변경가능 : 글씨체 */
+}
+
+/* ===============================
+   첫 화면 컨테이너
+   =============================== */
+#intro {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===============================
+   로고 + 텍스트 묶음
+   =============================== */
+#brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(0);
+  transition: transform 0.6s ease; /* 초기 슬라이드 애니메이션 */
+}
+
+/* ===============================
+   SolTube 텍스트
+   =============================== */
+#brand-text {
+  font-size: 64px;
+  font-weight: 700;
+  color: #000000; /* 변경가능 : 글자 색상 */
+  transition: transform 0.6s ease;
+}
+
+/* ===============================
+   유튜브 스타일 로고
+   =============================== */
+#brand-logo {
+  width: 90px;
+  height: 60px;
+  background-color: #FFD400; /* 변경가능 : 노랑색 (유튜브 빨강 대체) */
+  border-radius: 14px;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* ▶ 재생 삼각형 */
+#brand-logo::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 22px solid #ffffff; /* 변경가능 : 삼각형 색상 */
+}
+
+/* ===============================
+   등장 애니메이션 완료 상태
+   =============================== */
+.show-logo #brand-logo {
+  opacity: 1;
+}
+
+.slide-text #brand-text {
+  transform: translateX(-10px);
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+  <div id="brand">
+    <div id="brand-text">SolTube</div>
+    <div id="brand-logo"></div>
+  </div>
+</div>
+
+<script>
+/* ===============================
+   초기 등장 애니메이션
+   =============================== */
+window.onload = () => {
+  const brand = document.getElementById("brand");
+
+  // 글자 슬라이드 → 로고 등장
+  setTimeout(() => {
+    brand.classList.add("slide-text");
+    brand.classList.add("show-logo");
+  }, 500);
+};
+
+/* ===============================
+   마우스 움직임에 따른 인터랙션
+   (모든 모션은 마우스 슬라이드와 함께)
+   =============================== */
+document.addEventListener("mousemove", (e) => {
+  const brand = document.getElementById("brand");
+
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+  brand.style.transform = `translate(${x}px, ${y}px)`;
+});
+</script>
+</body>
+</html>

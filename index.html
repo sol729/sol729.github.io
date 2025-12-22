@@ -15,9 +15,9 @@
 }
 
 body {
-  height: 200vh; /* 스크롤 공간 확보 */
+  height: 200vh;
   font-family: Arial, Helvetica, sans-serif; /* 변경가능 */
-  background-color: #ffffff; /* 변경가능 */
+  background-color: #ffffff; /* intro용 */
   transition: background-color 0.8s ease;
 }
 
@@ -84,22 +84,22 @@ body {
    맥 프레임 (Home 전용)
    =============================== */
 .mac-frame {
-  width: 900px;
-  height: 520px;
-  background: #f5f5f5; /* 변경가능 */
+  width: 1100px;        /* ⭐ 기존보다 크게 */
+  height: 620px;        /* ⭐ 기존보다 크게 */
+  background: #f5f5f5;  /* 변경가능 */
   border-radius: 18px;
-  padding: 20px;
+  padding: 16px;        /* ⭐ 여백 축소 */
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  transition: all 0.8s ease; /* 핵심 */
+  transition: all 0.8s ease;
 }
 
-/* 확장 상태 (Home 외) */
+/* Home 외 페이지 */
 .mac-frame.expanded {
   width: 100vw;
   height: 100vh;
   border-radius: 0;
-  padding: 40px;
-  background: #fffbe6; /* ⭐ 연노랑 배경 */
+  padding: 32px;
+  background: #ffffff; /* ⭐ 페이지 자체는 흰색 */
   box-shadow: none;
 }
 
@@ -111,6 +111,10 @@ body {
   height: 100%;
   border-radius: 12px;
   padding: 24px;
+
+  display: flex;              /* ⭐ 추가 */
+  flex-direction: column;     /* ⭐ 추가 */
+  overflow: hidden;           /* ⭐ 넘침 방지 */
 }
 
 /* ===============================
@@ -118,18 +122,22 @@ body {
    =============================== */
 .channel-header {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
+
+  flex-shrink: 0;   /* ⭐ 헤더 고정 */
+  margin-bottom: 12px;
 }
 
-/* 프로필 사진 */
+/* 프로필 */
 .profile {
-  width: 96px;
-  height: 96px;
+  width: 220px;     /* ⭐ 살짝 크게 */
+  height: 220px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
   cursor: pointer;
+  flex-shrink: 0;   /* ⭐ 줄어들지 않게 */
 }
 
 .profile img {
@@ -138,7 +146,7 @@ body {
   object-fit: cover;
 }
 
-/* 호버 오버레이 */
+/* hover 오버레이 */
 .profile-overlay {
   position: absolute;
   inset: 0;
@@ -168,7 +176,7 @@ body {
 }
 
 .subscribe {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 13px;
   padding: 6px 14px;
   border-radius: 20px;
@@ -183,7 +191,7 @@ body {
   position: relative;
   display: flex;
   gap: 24px;
-  margin-top: 24px;
+  margin-top: 16px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -200,7 +208,6 @@ body {
   color: #000;
 }
 
-/* 하단 이동 바 */
 .tab-indicator {
   position: absolute;
   bottom: -1px;
@@ -210,36 +217,47 @@ body {
 }
 
 /* ===============================
-   Home 콘텐츠
+   콘텐츠 영역
    =============================== */
-.home-content {
-  margin-top: 32px;
-  font-size: 15px;
-  line-height: 1.6;
+.page-content {
+  flex: 1;              /* ⭐ 남은 공간 차지 */
+  overflow-y: auto;     /* ⭐ 내부 스크롤 */
 }
 
-/* 유튜브 카드 */
+/* Home 전용 */
+.home-content {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* 영상 카드 */
 .video-card {
   display: flex;
   gap: 16px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .video-frame {
-  width: 300px;
-  height: 170px;
+  width: 280px;
+  height: 158px;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .video-info h3 {
   font-size: 15px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .video-info p {
   font-size: 13px;
-  line-height: 1.5;
+}
+
+/* 빈 페이지 */
+.empty-page {
+  height: 100%;
+  background: #ffffff;
 }
 </style>
 </head>
@@ -262,13 +280,11 @@ body {
       <!-- 헤더 -->
       <div class="channel-header">
         <div class="profile">
-          <!-- ⭐ 이미지 경로 -->
-          <img src="./image/imag.jpg" alt="profile">
-
+          <img src="./image/imag.jpg" alt="profile"> <!-- 경로만 교체 -->
           <div class="profile-overlay">
             김소연<br>
             2000.07.29.<br>
-            Univ.
+            Shinhan Univ.
           </div>
         </div>
 
@@ -289,19 +305,22 @@ body {
         <div class="tab-indicator"></div>
       </nav>
 
-      <!-- Home -->
-      <div class="home-content">
-        📧 – 333thdus729@naver.com<br>
-        💼 – https://www.linkedin.com/in/soyeon-kim-735996394<br>
-        📝 – <a href="#">Notion</a>
+      <!-- 콘텐츠 -->
+      <div class="page-content" id="pageContent">
+        <!-- Home -->
+        <div class="home-content">
+          📧 – 333thdus729@naver.com<br>
+          💼 – LinkedIn<br>
+          📝 – <a href="#">Notion</a>
 
-        <div class="video-card">
-          <div class="video-frame">
-            <iframe src="" width="100%" height="100%" allowfullscreen></iframe>
-          </div>
-          <div class="video-info">
-            <h3>영상 제목</h3>
-            <p>영상 설명을 여기에 작성하세요.</p>
+          <div class="video-card">
+            <div class="video-frame">
+              <iframe src="" width="100%" height="100%" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+              <h3>영상 제목</h3>
+              <p>영상 설명을 여기에 작성하세요.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -319,9 +338,11 @@ window.addEventListener("scroll", () => {
   if (scrollY > 50) {
     intro.style.opacity = "0";
     channel.style.bottom = "0";
+    document.body.style.backgroundColor = "#fffbe6"; /* ⭐ 연노랑 */
   } else {
     intro.style.opacity = "1";
     channel.style.bottom = "-100%";
+    document.body.style.backgroundColor = "#ffffff";
   }
 });
 
@@ -329,23 +350,22 @@ window.addEventListener("scroll", () => {
 const tabs = document.querySelectorAll(".tab");
 const indicator = document.querySelector(".tab-indicator");
 const macFrame = document.getElementById("macFrame");
+const pageContent = document.getElementById("pageContent");
 
 window.onload = () => moveIndicator(document.querySelector(".tab.active"));
 
 tabs.forEach(tab => {
-  tab.addEventListener("click", e => {
-    e.preventDefault();
-
+  tab.addEventListener("click", () => {
     tabs.forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     moveIndicator(tab);
 
     if (tab.dataset.target === "home") {
       macFrame.classList.remove("expanded");
-      document.body.style.backgroundColor = "#ffffff";
+      pageContent.innerHTML = document.querySelector(".home-content").outerHTML;
     } else {
       macFrame.classList.add("expanded");
-      document.body.style.backgroundColor = "#fffbe6";
+      pageContent.innerHTML = `<div class="empty-page"></div>`; /* 빈 페이지 */
     }
   });
 });
